@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Search Rides - GoRikshaw</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1>Search Rides</h1>
+    </div>
+  </header>
+
+  <main>
+    <section class="search-section">
+      <div class="rikshaw-icon">
+        <img src="rikshaw.png" alt="Rikshaw Icon">
+      </div>
+      <form id="searchForm">
+        <input type="text" id="pickup" placeholder="Pickup Location (Latitude, Longitude)" required>
+        <input type="text" id="drop" placeholder="Drop Location (Latitude, Longitude)" required>
+        <button type="submit">Search Rides</button>
+        <button type="button" id="currentLocation">Use Current Location</button>
+      </form>
+      <div id="map" style="width: 100%; height: 500px; margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 GoRikshaw. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Leaflet.js JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    let map, currentMarker, routeLayer, nearbyMarkers = [];
+
+    // Initialize the map
+    function initMap() {
+      map = L.map("map").setView([20.5937, 78.9629], 5); // Centered on India
+
+      // Add OpenStreetMap tiles
+      L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+        maxZoom: 19,
+        attribution: '© OpenStreetMap contributors',
+      }).addTo(map);
+    }
+
+    // Use Geolocation API for Current Location
+    document.getElementById("currentLocation").addEventListener("click", () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            const { latitude, longitude } = position.coords;
+
+            // Center map on current location
+            map.setView([latitude, longitude], 15);
+
+            // Add or update the current location marker
+            if (currentMarker) {
+              currentMarker.setLatLng([latitude, longitude]);
+            } else {
+              currentMarker = L.marker([latitude, longitude]).addTo(map);
+            }
+
+            // Pre-fill pickup location
+            document.getElementById("pickup").value = `${latitude}, ${longitude}`;
+          },
+          () => {
+            alert("Unable to fetch your location. Please allow location access.");
+          }
+        );
+      } else {
+        alert("Geolocation is not supported by your browser.");
+      }
+    });
+
+    // Handle Search Form Submission
+    document.getElementById("searchForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+
+      const pickup = document.getElementById("pickup").value.split(",");
+      const drop = document.getElementById("drop").value.split(",");
+
+      if (pickup.length !== 2 || drop.length !== 2) {
+        alert("Please enter valid coordinates for Pickup and Drop locations.");
+        return;
+      }
+
+      const pickupLatLng = [parseFloat(pickup[0]), parseFloat(pickup[1])];
+      const dropLatLng = [parseFloat(drop[0]), parseFloat(drop[1])];
+
+      // Save the pickup and drop locations
+      localStorage.setItem("pickup", pickup.join(","));
+      localStorage.setItem("drop", drop.join(","));
+
+      // Clear existing markers and route
+      if (routeLayer) map.removeLayer(routeLayer);
+      nearbyMarkers.forEach(marker => map.removeLayer(marker));
+      nearbyMarkers = [];
+
+      // Display markers for Pickup and Drop
+      L.marker(pickupLatLng).addTo(map).bindPopup("Pickup Location").openPopup();
+      L.marker(dropLatLng).addTo(map).bindPopup("Drop Location");
+
+      // Find nearby rikshaws
+      findNearbyRikshaws(pickupLatLng);
+    });
+
+    // Generate nearby rikshaw locations and display them on the map
+    function findNearbyRikshaws(center) {
+      const rikshawCount = 5; // Number of nearby rikshaws
+      const maxDistance = 0.01; // Maximum distance from the center (approx. ~1 km)
+
+      for (let i = 0; i < rikshawCount; i++) {
+        const latOffset = (Math.random() * 2 - 1) * maxDistance;
+        const lngOffset = (Math.random() * 2 - 1) * maxDistance;
+
+        const rikshawLatLng = [center[0] + latOffset, center[1] + lngOffset];
+
+        const marker = L.marker(rikshawLatLng, {
+          icon: L.icon({
+            iconUrl: "rikshaw_icon.png", // Add your rikshaw icon here
+            iconSize: [30, 30],
+          }),
+        }).addTo(map);
+
+        marker.bindPopup("Nearby Rikshaw");
+        nearbyMarkers.push(marker);
+      }
+    }
+
+    // Initialize the map on page load
+    window.onload = initMap;
+  </script>
+</body>
+</html>

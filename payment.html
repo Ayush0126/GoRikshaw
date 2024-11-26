@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GoRiksha Payment Page</title>
+    <link rel="stylesheet" href="payment.css">
+</head>
+<body>
+    <div class="payment-page">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>GoRiksha</h1>
+            <div class="ride-details">
+                <p><strong>Pickup:</strong> <span >Hostel-O</span></p>
+                <p><strong>Drop-off:</strong> <span >Leelabhavan</span></p>
+            </div>
+        </header>
+
+        <!-- Main Payment Section -->
+        <main class="main-container">
+            <!-- Left Section: Payment Options -->
+            <section class="payment-options">
+                <h2>Select Payment Method</h2>
+                <form id="paymentForm">
+                    <div>
+                        <input type="radio" id="credit-card" name="payment" value="credit-card" checked>
+                        <label for="credit-card">Credit/Debit Card</label>
+                        <div class="card-details hidden">
+                            <label for="card-number">Card Number:</label>
+                            <input type="text" id="card-number" placeholder="Enter card number" maxlength="16">
+                            <label for="expiry-date">Expiry Date:</label>
+                            <input type="month" id="expiry-date">
+                            <label for="cvv">CVV:</label>
+                            <input type="password" id="cvv" placeholder="123" maxlength="3">
+                        </div>
+                    </div>
+                    <div>
+                        <input type="radio" id="upi" name="payment" value="upi">
+                        <label for="upi">UPI</label>
+                        <div class="upi-details hidden">
+                            <label for="upi-id">UPI ID:</label>
+                            <input type="text" id="upi-id" placeholder="example@upi">
+                        </div>
+                    </div>
+                    <div>
+                        <input type="radio" id="wallet" name="payment" value="wallet">
+                        <label for="wallet">Digital Wallet</label>
+                    </div>
+                    <div>
+                        <input type="radio" id="cash" name="payment" value="cash">
+                        <label for="cash">Cash</label>
+                    </div>
+                    <div class="promo-code">
+                        <label for="promo">Promo Code:</label>
+                        <input type="text" id="promo" placeholder="Enter code">
+                    </div>
+                </form>
+            </section>
+
+            <!-- Right Section: Fare Summary -->
+            <section class="fare-summary">
+                <h2>Fare Summary</h2>
+                <p><strong>Base Fare:</strong> ₹10</p>
+                <p><strong>Taxes:</strong> ₹2</p>
+                <p class="total"><strong>Total:</strong> ₹12</p>
+                <button class="pay-now" id="payNow">Pay Now</button>
+            </section>
+        </main>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>Secure Payment Powered by Visa, MasterCard, and Razorpay</p>
+            <p><a href="#">Help & Support</a></p>
+        </footer>
+    </div>
+
+    <script src="payment.js"></script>
+</body>
+</html>

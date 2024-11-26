@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GoRiksha Booking</title>
+  <link rel="stylesheet" href="book.css">
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+    .map {
+      height: 300px;
+      width: 100%;
+      margin-top: 20px;
+    }
+    .booking-container {
+      width: 90%;
+      max-width: 600px;
+      margin: 0 auto;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <div class="booking-container">
+    <h1>Book Your Ride</h1>
+    <form id="booking-form">
+      <div class="form-group">
+        <label for="pickup">Pickup Location:</label>
+        <input type="text" id="pickup" name="pickup" placeholder="Enter pickup point" required>
+      </div>
+      <div class="form-group">
+        <label for="destination">Destination:</label>
+        <input type="text" id="destination" name="destination" placeholder="Enter destination" required>
+      </div>
+      <div id="map" class="map"></div>
+      <p class="info">Click on a driver marker to select them.</p>
+      <input type="hidden" id="selected-driver" name="driver" required>
+      <p id="selected-driver-info"></p>
+      <a href="payment.html" target="_blank" class="booking-button">Confirm Booking</a>
+    </form>
+  </div>
+
+  <!-- Leaflet JavaScript -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    let map;
+    let markers = [];
+
+    function initMap() {
+      // Initialize the map centered at a default location (e.g., Delhi, India)
+      const initialPosition = [28.6139, 77.2090];
+      map = L.map('map').setView(initialPosition, 12);
+
+      // Add OpenStreetMap tiles
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; OpenStreetMap contributors'
+      }).addTo(map);
+
+      // Mock driver locations
+      const driverLocations = [
+        { id: 1, position: [28.6450, 77.2050], name: "Driver A" },
+        { id: 2, position: [28.6150, 77.2150], name: "Driver B" },
+        { id: 3, position: [28.6250, 77.2250], name: "Driver C" },
+      ];
+
+      // Add markers for each driver
+      driverLocations.forEach((driver) => {
+        const marker = L.marker(driver.position).addTo(map)
+          .bindPopup(driver.name)
+          .on('click', () => {
+            document.getElementById("selected-driver").value = driver.id;
+            document.getElementById("selected-driver-info").innerText =
+              `Selected Driver: ${driver.name}`;
+          });
+
+        markers.push(marker);
+      });
+    }
+
+    // Initialize the map
+    document.addEventListener("DOMContentLoaded", initMap);
+  </script>
+</body>
+</html>

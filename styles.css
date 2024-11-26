@@ -1,0 +1,136 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    font-family: 'Roboto', Arial, sans-serif;
+    background: linear-gradient(135deg, #e0f7fa, #e8f5e9);
+    color: #333;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  /* Header Styles */
+  header {
+    background: linear-gradient(to right, #7b7ea4, #9baea3);
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  header h1 {
+    font-size: 2rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  
+  /* Header Buttons */
+  header .nav-links {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  header .nav-links a {
+    padding: 10px 20px;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(to right, #218838, #2ecc71);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.2);
+  }
+  
+  header .nav-links a:hover {
+    background: linear-gradient(to right, #1e7e34, #27ae60);
+    transform: scale(1.05);
+  }
+  
+  /* Hero Section Styles */
+  .hero {
+    text-align: center;
+    margin: 40px auto;
+    padding: 60px 20px;
+    background: linear-gradient(135deg, #ffffff, #f8f8f8);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    width: 90%;
+    max-width: 800px;
+  }
+  
+  .hero h1 {
+    font-size: 2.5rem;
+    color: #28a745;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+  
+  .hero p {
+    font-size: 1.2rem;
+    color: #555;
+    margin-bottom: 40px;
+  }
+  
+  .hero .btn-primary {
+    display: inline-block;
+    padding: 15px 30px;
+    font-size: 1rem;
+    color: white;
+    background: linear-gradient(to right, #28a745, #2ecc71);
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background 0.3s ease, transform 0.3s ease;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+  
+  .hero .btn-primary:hover {
+    background: linear-gradient(to right, #218838, #27ae60);
+    transform: scale(1.05);
+  }
+  
+  /* Footer Styles */
+  footer {
+    background: linear-gradient(to right, #7b7ea4, #9baea3);
+    color: white;
+    text-align: center;
+    padding: 10px 0;
+    margin-top: auto;
+    box-shadow: 0 -4px 6px rgba(0, 0, 0, 0.2);
+    font-size: 0.9rem;
+  }
+  
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 1.5rem;
+    }
+  
+    .hero h1 {
+      font-size: 2rem;
+    }
+  
+    .hero p {
+      font-size: 1rem;
+    }
+  
+    .hero .btn-primary {
+      padding: 12px 25px;
+      font-size: 0.9rem;
+    }
+  
+    header .nav-buttons a {
+      font-size: 0.9rem;
+      padding: 8px 15px;
+    }
+  }
+  
